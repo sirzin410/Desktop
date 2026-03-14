@@ -7,12 +7,14 @@
   
    :root {
       --pink: #ff74a4;
-      --violet: #9f6ea3;
+      --violet: #c312d3;
       --lightblack: #9f6ea3;
       --white: #ffffff;
       --darkwhite: #cecaca;
       --pinkshadow: #ffcbdd;
       --lightshadow: #0a0101;
+      --limegreen: #00ee2c;
+      --green: #18ac7d;
   }
   
   body {
@@ -29,7 +31,7 @@
       position: relative;
       border-radius: 15px;
       padding: 25px 30px;
-      background: var(--white);
+      background: seashell;
       box-shadow: 0px 6px 15px var(--lightshadow);
   }
   
@@ -63,7 +65,7 @@
       overflow: hidden;
       margin-top: 25px;
       border-radius: 15px;
-      background: lightblue;
+      background: rgb(111, 218, 140);
       box-shadow: 0px 6px 12px var(---lightshadow);
   }
   
@@ -103,7 +105,7 @@
       width: 0%;
       position: relative;
       border-radius: inherit;
-      background: linear-gradient(90deg, var(--pink) 0%, var(--violet) 100%);
+      background: linear-gradient(90deg, var(--limegreen) 0%, var(--green) 100%);
   }
   
   .progress-bar::before {
@@ -141,7 +143,7 @@
   .controls i {
       font-size: 28px;
       user-select: none;
-      background: linear-gradient( var(--pink) 0%, var(--violet) 100%);
+      background: linear-gradient( var(--limegreen) 0%, var(--green) 100%);
       background-clip: text;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -164,7 +166,7 @@
       height: 54px;
       width: 54px;
       background: linear-gradient( var(--white) 0%, var(--darkwhite) 100%);
-      box-shadow: 0px 0px 5px var(--pink);
+      box-shadow: 0px 0px 5px var(--limegreen);
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -177,7 +179,7 @@
       height: 43px;
       width: 43px;
       border-radius: inherit;
-      background: linear-gradient(90deg, var(--pink) 0%, var(--violet) 100%);
+      background: linear-gradient(90deg, var(--limegreen) 0%, var(--green) 100%);
   }
   
   .play-pause i {
@@ -267,4 +269,31 @@
   
   ul li .audio-duration {
       font-size: 16px;
+  }
+  
+  .music-list {
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.14s ease-out;
+  }
+  
+  .music-list.show {
+      opacity: 1;
+      pointer-events: auto;
+  }
+  
+  #close {
+      cursor: grab;
+  }
+  
+  ul li.playing {
+      color: var(--green);
+      pointer-events: none
+  }
+  
+  #logo {
+      display: block;
+      margin: 0 auto;
+      max-width: 100%;
+      height: auto;
   }

@@ -9,25 +9,16 @@ prevBtn = wrapper.querySelector("#prev");
 nextBtn = wrapper.querySelector("#next");
 progressArea = wrapper.querySelector(".progress-area");
 progressBar = wrapper.querySelector(".progress-bar");
-musicList = wrapper.querySelector("#close");
-showMoreBtn = wrapper.querySelector("#more-music");
-musicList = wrapper.querySelector("#close");
-
-
-
-showMoreBtn.addEventListener("click", () => {
-    musicList.classList.toggle("show");
-
-});
-
-
-
+const showMoreBtn = document.querySelector("#more-music");
+const musicList = document.querySelector(".music-list");
+const closeBtn = document.querySelector("#close");
 
 
 let musicIndex = 1;
 
 window.addEventListener("load", () => {
-    loadMusic(musicIndex); // calling load music function once window
+    loadMusic(musicIndex); // calling load music function once window is open
+    playingNow();
 });
 
 // load music function
@@ -55,7 +46,7 @@ function pauseMusic() {
 }
 //next music function
 function nextMusic() {
-    //I'll increment index by 1
+    // increment index by 1
     musicIndex++;
     //if musicindex is greater than array length then musicindex will be 1 so the first song will play
     musicIndex > allMusic.length ? musicIndex = 1 : musicIndex = musicIndex;
@@ -65,7 +56,7 @@ function nextMusic() {
 }
 //prev music function
 function prevMusic() {
-    //I'll decrement index by 1
+    // decrement index by 1
     musicIndex--;
     //if musicindex is less than 1 then musicindex will be array length so the last song will play
     musicIndex < 1 ? musicIndex = allMusic.length : musicIndex = musicIndex;
@@ -188,3 +179,79 @@ mainAudio.addEventListener("ended", () => {
 
     }
 })
+closeBtn.addEventListener("click", () => {
+    musicList.classList.remove("show");
+});
+
+
+showMoreBtn.addEventListener("click", () => {
+    musicList.classList.toggle("show");
+});
+
+closeBtn.addEventListener("click", () => {
+    closeBtn.click();
+});
+
+const ulTag = document.querySelector(".music-list ul");
+
+for (let i = 0; i < allMusic.length; i++) {
+
+    let liTag = `<li li-index="${i+1}">
+                <div class="row">
+                    <span>${allMusic[i].name}</span>
+                    <p>${allMusic[i].artist}</p>
+                </div>
+                <audio class="${allMusic[i].src}" src="songs/${allMusic[i].src}.mp3"></audio>
+                <span id="${allMusic[i].src}" class="audio-duration">0:00</span>
+            </li>`;
+
+    ulTag.insertAdjacentHTML("beforeend", liTag);
+
+
+    let liAudioTag = ulTag.querySelector(`.${allMusic[i].src}`);
+    let liAudioDurationSpan = ulTag.querySelector(`#${allMusic[i].src}`);
+
+    liAudioTag.addEventListener("loadeddata", () => {
+        let audioDuration = liAudioTag.duration;
+        let totalMin = Math.floor(audioDuration / 60);
+        let totalSec = Math.floor(audioDuration % 60);
+
+        if (totalSec < 10) {
+            totalSec = `0${totalSec}`;
+        }
+
+
+        liAudioDurationSpan.innerText = `${totalMin}:${totalSec}`;
+    });
+}
+
+// select partivular song by clicking on the playlist queue
+const allLitags = ulTag.querySelectorAll("li");
+
+function playingNow() {
+    for (let k = 0; k < allLitags.length; k++) {
+        allLitags[k].setAttribute("onclick", "clicked(this)");
+
+
+        if (allLitags[k].getAttribute("li-index") == musicIndex) {
+            allLitags[k].classList.add("playing");
+        } else {
+            //  other songs don't keep the "playing" class
+            allLitags[k].classList.remove("playing");
+        }
+    }
+
+}
+// function called by the click event
+function clicked(element) {
+    // Get the index from the clicked element
+    let getLiIndex = element.getAttribute("li-index");
+
+    // Update the  musicIndex to ensure it's a number if needed
+    musicIndex = parseInt(getLiIndex);
+
+    loadMusic(musicIndex);
+    playMusic();
+    playingNow();
+    playSong();
+}
