@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Music Player</title>
+  <link rel="stylesheet" href="/Styles/home.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Icons">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap">
+  
+  <!-- Supabase with local fallback -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0"></script>
+  <script>
+    // Fallback if CDN is blocked by tracking prevention
+    if (typeof window.supabase === 'undefined') {
+      document.write('<script src="https://unpkg.com/@supabase/supabase-js@2.39.0/dist/umd/supabase.js"><\/script>');
+    }
+  </script>
+</head>
+<body>
+
+  <div class="nav">
+    <div class="logo">
+      <h1>🎵 MusicPlayer</h1>
+    </div>
+    <div class="links">
+      <a href="#">Home</a>
+      <a href="#">Browse</a>
+      <a href="#">Favorites</a>
+      <button class="add-btn" title="Add new song">
+        <i class="material-icons">add</i>
+      </button>
+    </div>
+  </div>
+
+  <div class="separater">
+    <div class="wrapper">
+      <div class="song">
+        <div class="song-details">
+          <div class="image-container">
+            <div class="ambient-glow" id="ambient-glow"></div>
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdelVvulL1xaToJ0S2cZd2H2x_npQj9QhaWA&s" 
+                 alt="" 
+                 id="song-img" 
+                 crossorigin="anonymous" width="500px" height="300px">
+          </div>
+          <h2 class="song_name" id="song_name">Song_Name</h2>
+          <p id="artist" class="artist">Artist</p>
+        </div>
+
+        <div class="progress-area">
+          <div class="progress-bar"></div>
+          <div class="timer">
+            <span class="current">0:00</span>
+            <span class="duration">0:00</span>
+          </div>
+          <audio id="main-audio" src=""></audio>
+        </div>
+
+        <div class="controls">
+          <i id="repeat-plist" class="material-icons" title="Playlist looped">repeat</i>
+          <i id="prev" class="material-icons">skip_previous</i>
+          <div class="play-pause">
+            <i class="material-icons">play_arrow</i>
+          </div>
+          <i id="next" class="material-icons">skip_next</i>
+          <i id="more-music" class="material-icons">queue_music</i>
+        </div>
+      </div>
+    </div>
+
+    <div class="music-list" id="music-list">
+      <div class="music-list-header">
+        <h3>Playlist</h3>
+      </div>
+      <div class="music-items" id="music-items">
+        <!-- Music items will be loaded here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Music Modal -->
+  <div class="modal" id="add-music-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Add New Music</h2>
+        <button class="close-btn" id="close-modal">&times;</button>
+      </div>
+      <form id="add-music-form">
+        <div class="form-group">
+          <label for="song-name-input">Song Name *</label>
+          <input type="text" id="song-name-input" required placeholder="Enter song name">
+        </div>
+
+        <div class="form-group">
+          <label for="artist-name-input">Artist Name *</label>
+          <input type="text" id="artist-name-input" required placeholder="Enter artist name">
+        </div>
+
+        <div class="form-group">
+          <label for="song-image-input">Song Image URL (optional)</label>
+          <input type="url" id="song-image-input" placeholder="https://example.com/image.jpg">
+          <small>Or upload an image:</small>
+          <input type="file" id="song-image-file" accept="image/*">
+        </div>
+
+        <div class="form-group">
+          <label for="song-file-input">Audio File (MP3, WAV, etc.) *</label>
+          <input type="file" id="song-file-input" accept="audio/*" required>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-submit">Upload Music</button>
+          <button type="button" class="btn-cancel" id="cancel-btn">Cancel</button>
+        </div>
+
+        <div class="upload-progress" id="upload-progress" style="display: none;">
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="progress-bar-fill"></div>
+          </div>
+          <p id="progress-text">Uploading...</p>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="../Scripts/home.js"></script>
+</body>
+</html>
